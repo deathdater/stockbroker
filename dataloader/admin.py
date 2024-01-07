@@ -12,7 +12,12 @@ import re
 
 
 def download_pr_folder(prurl):
-    req=requests.get(prurl)
+    print ("request to download:\t"+prurl)
+    headers = {
+    "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36'}
+    req=requests.get(prurl,allow_redirects=True,headers=headers)
+    print(req.status_code)
+    
     if(req.status_code==200):
         with open('./data/downloads/PR/'+prurl[-12:],'wb') as zip:
             zip.write(req.content)
@@ -48,8 +53,12 @@ def download_pr_zip(modeladmin,request,queryset):
 
 def add_PR_data(modeladmin,request,queryset):
     FIRSTDATE=dt.date(2010,2,1)
-    PR_URL_PREFIX='https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR'
-    PR_URL_SUFFIX='.zip'
+    PR_URL_PREFIX_old='https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR'
+    PR_URL_SUFFIX_old='.zip'
+    
+    # 7th Jan The PR Link is changes
+    PR_URL_PREFIX_New='http://nsearchives.nseindia.com/archives/equities/bhavcopy/pr/PR'
+    PR_URL_SUFFIX_New='.zip'
     generated_urls={}
     if queryset is not None:
         last_date=queryset.latest('folder_date').folder_date
@@ -60,7 +69,7 @@ def add_PR_data(modeladmin,request,queryset):
             new_date=(last_date+dt.timedelta(days=1))
             
             if (new_date.weekday()<5) :
-                prurl=PR_URL_PREFIX+new_date.strftime('%d%m%y')+PR_URL_SUFFIX
+                prurl=PR_URL_PREFIX_New+new_date.strftime('%d%m%y')+PR_URL_SUFFIX_New
                 generated_urls[new_date.strftime('%d%m%y')]=prurl
             last_date=new_date
 
@@ -72,7 +81,7 @@ def add_PR_data(modeladmin,request,queryset):
             new_date=last_date+dt.timedelta(days=1)
             
             if (new_date.weekday<5):
-                generated_urls.append(PR_URL_PREFIX+new_date.strftime('%d%m%y')+PR_URL_SUFFIX)
+                generated_urls.append(PR_URL_SUFFIX_New+new_date.strftime('%d%m%y')+PR_URL_SUFFIX_New)
             last_date=new_date
     for prdate ,prlink in generated_urls.items():
         year='20'+prdate[4:6]

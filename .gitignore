@@ -25,7 +25,9 @@ media
 
 # Distribution / packaging
 .Python
-data/
+*.zip
+*.csv
+secrets*
 build/
 develop-eggs/
 dist/

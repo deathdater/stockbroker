@@ -186,15 +186,15 @@ def update_filter_stocks(request,modeladmin,queryset):
             new_quality_stock=QualityAnalysisScoring(
                 stock_industry='DEFAULT INDUSTRY',
                 filtered_security_object=filtered_stock,
-                return_on_capital_employed='less than 5 percent',
-                earning_per_share='No',
-                free_cash_flow='No',
-                interest_coverage_ratio='No',
-                net_profit_margin='less than 5 percent',
-                dividends='No',
-                government_regulations_risk='No',
-                research_and_development_risk='No',
-                key_person_risk='No')
+                return_on_capital_employed='0.0',
+                earning_per_share='0.0',
+                free_cash_flow='0.0',
+                interest_coverage_ratio='0.0',
+                net_profit_margin='-1.0',
+                dividends='0.0',
+                government_regulations_risk='0.0',
+                research_and_development_risk='0.0',
+                key_person_risk='0.0')
             new_quality_stock.save()
 
         print(stock.security+','+str(stock.close_price),end='\n')
@@ -291,8 +291,9 @@ def load_pd_ten_day_data(request,modeladmin,queryset):
 
 class BhavCopyLoaderAdmin(admin.ModelAdmin):
     actions=[load_pd_data,load_pd_today_data,update_filter_stocks]
-    list_display=[]
-    search_fields=[]
+    list_display=['mkt_date','symbol','close_price','fiftytwo_week_high','is_nifty_fifty','is_nifty_next_fifty']
+    search_fields=['security','symbol']
+    list_filter=['mkt_date','is_nifty_fifty','is_nifty_next_fifty']
 
 class BhavCopyTenLoadedAdmin(admin.ModelAdmin):
     actions=[load_pd_ten_day_data,clear_data]

@@ -33,15 +33,16 @@ def get_tech_indicators(stock_symbol,interval='daily'):
 
 
 
-
-# adiluvall@gmail.com Trading@36563
-
+## EXPERIMENTAL
+# function attempting screener login
 def screener_login():
     # with requests.Session() as session:
     with HTMLSession() as session:
         url='https://www.screener.in/login/'
-        USERNAME='adiluvall@gmail.com'
-        PASSWORD='Trading@36563'
+        # Below Two lines will include user id and password for logi nto your screener
+        
+        USERNAME='Dummy USER ID' 
+        PASSWORD='Dummy PASSWORD'
         session.get(url)
         csrftoken=session.cookies['csrftoken']
         login_data=dict(csrfmiddlewaretoken=csrftoken,username=USERNAME,password=PASSWORD,next='')

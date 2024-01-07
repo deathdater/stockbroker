@@ -10,7 +10,7 @@ def clear_data(request,modeladmin,queryset):
     # stock_data.save()
 
 def load_all_stocks(request,modeladmin,queryset):
-    mkt_date=BhavLastTenDays.objects.first().mkt_date-dt.timedelta(days=1)
+    mkt_date=BhavLastTenDays.objects.last().mkt_date-dt.timedelta(days=1)
     print(str(mkt_date))
     stockdata=BhavLastTenDays.objects.filter(mkt_date=mkt_date,open_price__gt=100.0,is_index=False,series='EQ')
     print(len(stockdata))
