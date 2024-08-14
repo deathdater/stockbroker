@@ -88,6 +88,9 @@ class StockTrendSignals(models.Model):
     bullish_harami_signal=models.CharField(max_length=15,choices=SIGNAL_CHOICES)
     piercing_pattern_signal=models.CharField(max_length=15,choices=SIGNAL_CHOICES)
     morning_star_signal=models.CharField(max_length=15,choices=SIGNAL_CHOICES)
+    # Added code to detect on daily chart head and shoulder
+    headnshoulder=models.CharField(max_length=15,choices=SIGNAL_CHOICES,blank=True)
+    
     last_updated=models.DateField(auto_now=True)
 
     def __str__(self):
